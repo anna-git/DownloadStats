@@ -1,21 +1,21 @@
-﻿import * as React from "react";
-import * as d3 from "d3";
+﻿import React, { Component } from 'react';
+import * as d3 from d3;
 import * as topojson from "topojson-client";
 import { GeoPath } from "d3";
 
 
-export default class Map extends React.Component {
-    private currentProjection: any = {};
-    private mouseClicked: boolean = false;  
-    private width: number = 962;
-    private rotated: number = 90;
-    private height: number = 502;
-    private initX: number = 0;
-    private g: any;
-    private zoom: any = 0; 
-    private scale: number = 1;
-    private path: GeoPath;
-    async getData() {
+export default class Map extends Component {
+    currentProjection;
+    mouseClicked = false;
+    width = 962;
+    rotated = 90;
+    height = 502;
+    initX = 0;
+    g;
+    zoom = 0;
+    scale = 1;
+    path;
+    getData() {
         fetch("/Downloads")
             .then(res => res.json())
             .then(
@@ -29,31 +29,27 @@ export default class Map extends React.Component {
                 }
             )
     }
-    rotateMap(endX:number) {
+    rotateMap(endX) {
         this.currentProjection.rotate([this.rotated + (endX - this.initX) * 360 / (this.scale * this.width), 0, 0])
         this.g.selectAll('path')       // re-project path data
             .attr('d', this.path);
     }
-    private eventHandlers = {
-        parent:this,
+    eventHandlers = {
         zoomed() {
             var t = d3.event.translate;
-            this.parent.scale = d3.event.scale;
+            this.scale = d3.event.scale;
             var h = 0;
-
-            t[0] = Math.min(
-                (this.parent.width / this.parent.height) * (this.parent.scale - 1),
-                Math.max(this.parent.width * (1 - this.parent.scale), t[0])
-            ); 
+            
+            t[0] = Math.min((this.width / this.height) * (this.scale - 1),Math.max(this.width * (1 - this.scale), t[0]));
 
             t[1] = Math.min(
-                h * (this.parent.scale - 1) + h * this.parent.scale,
-                Math.max(this.parent.height * (1 - this.parent.scale) - h * this.parent.scale, t[1])
+                h * (this.scale - 1) + h * this.scale,
+                Math.max(this.height * (1 - this.scale) - h * this.scale, t[1])
             );
             try {
-                this.parent.zoom.translate(t);
-                if (this.parent.scale === 1 && this.parent.mouseClicked) { 
-                    this.parent.rotateMap(d3.mouse(this.parent as any)[0])
+                this.zoom.translate(t);
+                if (this.scale === 1 && this.mouseClicked) {
+                    this.rotateMap(d3.mouse(this)[0])
                     return;
                 }
             }
@@ -61,24 +57,25 @@ export default class Map extends React.Component {
                 alert(e);
             }
 
-            this.parent.g.attr("transform", "translate(" + t + ")scale(" + this.parent.scale + ")");
-            
+            this.g.attr("transform", "translate(" + t + ")scale(" + this.scale + ")");
+
             //adjust the stroke width based on zoom level
             d3.selectAll(".boundary")
-                .style("stroke-width", 1 / this.parent.scale);
+                .style("stroke-width", 1 / this.scale);
         }
 
     }
-    async componentDidMount() {
+    componentDidMount() {
+        debugger;
         this.currentProjection = d3.geoMercator()
             .translate([this.width / 2, this.height / 1.4])    // translate to center of screen. You might have to fiddle with this
             //depending on the size of your screen
             .scale(150);
-         this.path = d3.geoPath().projection(this.currentProjection);
+        this.path = d3.geoPath().projection(this.currentProjection);
         const container = d3.select("#map-container");
         const svg = container.append("svg");
         let that = this;
-        this.zoom = d3.zoom().scaleExtent([1, 20]).on("zoom", this.eventHandlers.zoomed);
+        this.zoom = d3.zoom().scaleExtent([1, 20]).on("zoom", this.eventHandlers.zoomed.bind(this));
         this.g = svg.attr("width", this.width).attr("height", this.height)
             .on("mousedown", function () {
                 d3.event.preventDefault();
@@ -93,14 +90,15 @@ export default class Map extends React.Component {
                 that.mouseClicked = false;
             })
             .call(this.zoom).append('g');
-        var world: any = await d3.json("countries.json");
-        var topoJson = topojson.feature(world, world.objects.countries) as any;
-        svg.selectAll('path').data(topoJson.features).enter()
-            .append('path')
-            .attr("name", function (d: any) { return d.properties.name; })
-            .attr('d', (this.path as any))
-            .attr('class', 'country');
+        var world = d3.json("countries.json", function () {
+            var topoJson = topojson.feature(world, world.objects.countries);
+            svg.selectAll('path').data(topoJson.features).enter()
+                .append('path')
+                .attr("name", function (d) { return d.properties.name; })
+                .attr('d', (this.path))
+                .attr('class', 'country');
 
+        });
         this.getData();
     }
 
@@ -108,6 +106,6 @@ export default class Map extends React.Component {
     render() {
         return (
             <div id="map-container"></div>
-        ); 
+        );
     }
 }

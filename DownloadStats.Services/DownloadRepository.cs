@@ -1,6 +1,8 @@
 ﻿using DownloadStats.Database;
 using DownloadStats.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DownloadStats.Services
@@ -18,5 +20,9 @@ namespace DownloadStats.Services
             await context.Downloads.AddAsync(download);
             await context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Download>> Get() => await context.Downloads.ToListAsync();
+
+        
     }
 }

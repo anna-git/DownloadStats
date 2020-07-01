@@ -1,0 +1,36 @@
+﻿/* Provide sufficient contrast against white background */
+
+body {
+    a {
+        color: #0366d6;
+    }
+
+    code {
+        color: #E01A76;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #1b6ec2;
+        border-color: #1861ac;
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: "Open Sans", sans-serif;
+}
+
+.country {
+    stroke-width: 1;
+    stroke: darkslategrey;
+    fill: white;
+    transition: all 0.25s ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+        fill: #555555;
+    }
+}

@@ -10,5 +10,6 @@ namespace DownloadStats.Services
     public interface IDownloadRepository
     {
         Task Add(Download download);
+        Task<IEnumerable<Download>> Get();
     }
 }
