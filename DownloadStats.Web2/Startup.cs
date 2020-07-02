@@ -1,4 +1,5 @@
 using DownloadStats.Services;
+using DownloadStats.Web.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,8 @@ namespace DownloadStats.Web
             {
                 configuration.RootPath = "ClientApp/build";
             });
+            services.AddSignalR();
+            services.AddHostedService<Feeder>();
             services.RegisterServices(Configuration);
         }
 
@@ -54,6 +57,8 @@ namespace DownloadStats.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+
+                endpoints.MapHub<Notifier>("/downloads-notifier");
             });
 
             app.UseSpa(spa =>
@@ -65,6 +70,10 @@ namespace DownloadStats.Web
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+            using var scope = app.ApplicationServices.CreateScope();
+            var downloadRepository = scope.ServiceProvider.GetRequiredService<IDownloadRepository>();
+            downloadRepository.Init();
+
         }
     }
 }

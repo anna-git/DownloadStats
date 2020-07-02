@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DownloadStats.Services;
+using DownloadStats.Web.Controllers;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -8,18 +11,20 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DownloadStats.Services
+namespace DownloadStats.Web
 {
     public class Feeder : IHostedService
     {
         private readonly int _frequency;
         private readonly IServiceProvider services;
+        private readonly IHubContext<Notifier> hubcontext;
         private Timer _timer;
 
-        public Feeder(IConfiguration configuration, IServiceProvider serviceProvider)
+        public Feeder(IConfiguration configuration, IServiceProvider serviceProvider,  IHubContext<Notifier> hubcontext)
         {
             _frequency = int.Parse(configuration.GetSection("Feeder").Value);
             this.services = serviceProvider;
+            this.hubcontext = hubcontext;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -30,7 +35,8 @@ namespace DownloadStats.Services
                 {
                     using var scope = services.CreateScope();
                     var downloadRepository = scope.ServiceProvider.GetRequiredService<IDownloadRepository>();
-                    await downloadRepository.Add(new Domain.Download(Guid.NewGuid().ToString(), 1, 2, DateTime.Now, "IT"));
+                    await downloadRepository.Add(Guid.NewGuid().ToString(), 1, 2, DateTime.Now);
+                    await hubcontext.Clients.All.SendAsync("new-download");
 
                 }, null, TimeSpan.Zero, TimeSpan.FromSeconds(_frequency));
             }

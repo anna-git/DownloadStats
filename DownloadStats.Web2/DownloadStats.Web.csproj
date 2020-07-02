@@ -12,10 +12,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.5" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -26,8 +22,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\components\Map.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DownloadStats.Domain\DownloadStats.Domain.csproj" />
     <ProjectReference Include="..\DownloadStats.Services\DownloadStats.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\components\Map.tsx" />
   </ItemGroup>
 
 
@@ -70,6 +74,7 @@
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
+    <TypeScriptModuleKind />
   </PropertyGroup>
 
 </Project>

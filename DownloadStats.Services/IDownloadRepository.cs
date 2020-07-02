@@ -9,7 +9,9 @@ namespace DownloadStats.Services
 {
     public interface IDownloadRepository
     {
-        Task Add(Download download);
-        Task<IEnumerable<Download>> Get();
+
+        Task<Download> Add(string appId, double latitude, double longitude, DateTime downloadedAt);
+        Task<IEnumerable<Stats>> GetMain(int number);
+        Task Init();
     }
 }

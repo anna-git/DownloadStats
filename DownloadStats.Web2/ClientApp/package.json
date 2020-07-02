@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@microsoft/signalr": "^3.1.5",
     "bootstrap": "^4.5.0",
     "d3": "^5.16.0",
     "jquery": "^3.5.1",
@@ -23,7 +24,9 @@
     "@types/d3-scale": "^2.2.0",
     "@types/d3-transition": "1.1.6",
     "@types/d3-zoom": "^1.7.4",
+    "@types/node": "^14.0.14",
     "@types/react": "^16.9.41",
+    "@types/signalr": "^2.2.36",
     "@types/topojson": "^3.2.2",
     "ajv": "^6.12.2",
     "cross-env": "^5.2.0",
@@ -37,7 +40,11 @@
     "webpack": "4.42.0"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "import/first": 1,
+      "import/order": 1
+    }
   },
   "scripts": {
     "start": "rimraf ./build && react-scripts start",

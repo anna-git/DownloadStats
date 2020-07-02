@@ -16,8 +16,10 @@ namespace DownloadStats.Database
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Download>(b => b.HasKey(e => e.AppId));
+            modelBuilder.Entity<CountriesGeoCoordinates>(b => b.HasKey(e => e.Code));
+            modelBuilder.Entity<Download>(b => b.HasKey(e => e.Id));
         }
         public DbSet<Download> Downloads { get; set; }
+        public DbSet<CountriesGeoCoordinates> CountriesGeoCoordinates { get; set; }
     }
 }

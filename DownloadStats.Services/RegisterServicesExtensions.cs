@@ -13,7 +13,6 @@ namespace DownloadStats.Services
     {
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHostedService<Feeder>();
             services.AddScoped<IDownloadRepository, DownloadRepository>();
             services.RegisterDataServices(configuration);
         }
