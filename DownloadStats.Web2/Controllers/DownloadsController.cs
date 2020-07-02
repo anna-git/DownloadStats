@@ -21,10 +21,7 @@ namespace DownloadStats.Web.Controllers
         }
 
         [HttpGet]
-        public Task<IEnumerable<Stats>> Get(int number = 10)
-        {
-            return this.downloadRepository.GetMain(10); 
-        }
+        public Task<IEnumerable<Stats>> Get(int number = 10) => this.downloadRepository.GetMain(10);
 
         [HttpPost("Add")]
         public async Task<Download> Add(Models.Download download)

@@ -12,6 +12,5 @@ namespace DownloadStats.Services
 
         Task<Download> Add(string appId, double latitude, double longitude, DateTime downloadedAt);
         Task<IEnumerable<Stats>> GetMain(int number);
-        Task Init();
     }
 }

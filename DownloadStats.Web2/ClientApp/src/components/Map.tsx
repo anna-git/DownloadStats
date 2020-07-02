@@ -16,13 +16,13 @@ export default class Map extends React.Component {
     private zoom: any = 0;
     private scale: number = 1;
 
-    private path: GeoPath;  
+    private path: GeoPath;
     private connection: any;
     constructor(props) {
         super(props);
         this.connection = new SignalR.HubConnectionBuilder().withUrl("/downloads-notifier").build();
     }
-    async getData() {
+    async refreshData() {
         fetch("/Downloads")
             .then(res => res.json())
             .then(
@@ -41,7 +41,17 @@ export default class Map extends React.Component {
         this.g.selectAll('path')       // re-project path data
             .attr('d', this.path);
     }
-
+    //to implement if you wanna show main stats depending on zoom
+    //visibleCountries(): Array<string> {
+    //    var main = document.getElementsByTagName("svg")[0].getBoundingClientRect();
+    //    var elments = document.getElementsByClassName("country");
+    //    var list = new Array<string>();
+    //    for (var i = 0; i < elments.length; i++) {
+    //        if (document.getElementsByTagName("svg")[0].getEnclosureList(elments[i].getBBox(), null).length)
+    //            list.push(elments[i].getAttribute("name"));
+    //    }
+    //    return list;
+    //}
     async componentDidMount() {
         this.currentProjection = d3.geoMercator()
             .translate([this.width / 2, this.height / 1.4])    // translate to center of screen. You might have to fiddle with this
@@ -54,12 +64,15 @@ export default class Map extends React.Component {
         let zoomed = function () {
             var transform = d3.event.transform;
             that.scale = transform.k;
+
             if (transform.k === 1) { //don't pan if out of scale
                 d3.event.transform.x = 0;
                 d3.event.transform.y = 0;
             }
             that.g.attr("transform", d3.event.transform);
             d3.selectAll(".boundary").style("stroke-width", 1 / that.scale);
+            var t = d3.geoBounds(document.getElementsByName("France")[0] as SVGGElement);
+            //var t = that.visibleCountries();
         }
         this.zoom = d3.zoom().scaleExtent([1, 20]).on("zoom", zoomed);
         this.g = svg.attr("width", this.width).attr("height", this.height)
@@ -81,14 +94,15 @@ export default class Map extends React.Component {
         this.g.selectAll('path').data(topoJson.features).enter()
             .append('path')
             .attr("name", function (d: any) { return d.properties.name; })
+            .attr("country-code", function (d: any) { return d.properties.countryCode; })
             .attr('d', (this.path as any))
             .attr('class', 'country');
         await this.connection.start();
         if (this.connection.connectionId) {
             this.connection.on("new-download", message => {
-               
+                this.refreshData();
             });
-        }   
+        }
 
     }
 

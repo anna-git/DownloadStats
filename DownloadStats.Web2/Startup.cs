@@ -70,10 +70,6 @@ namespace DownloadStats.Web
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-            using var scope = app.ApplicationServices.CreateScope();
-            var downloadRepository = scope.ServiceProvider.GetRequiredService<IDownloadRepository>();
-            downloadRepository.Init();
-
         }
     }
 }

@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DownloadStats.Services
@@ -26,22 +24,6 @@ namespace DownloadStats.Services
             this.baseUrl = configurationSection.GetSection("BaseUrl").Value;
             this.userName = configurationSection.GetSection("UserName").Value;
         }
-        public async Task Init()
-        {
-            if (context.CountriesGeoCoordinates.Any())
-                return;
-            File.Exists(@"countriescoordinates.csv");
-            File.Exists(@"..\\countriescoordinates.csv");
-            var lines = File.ReadAllLines(@"..\\countriescoordinates.csv");
-            var cd = lines.Select(l =>
-            {
-                var parts = l.Replace("\t", " ").Split(",");
-                return new CountriesGeoCoordinates(parts[0].Trim(), double.Parse(parts[1].Trim()), double.Parse(parts[2].Trim()), parts[3].Trim());
-            });
-            await context.CountriesGeoCoordinates.AddRangeAsync(cd);
-            await context.SaveChangesAsync();
-        }
-
         public async Task<Download> Add(string appId, double latitude, double longitude, DateTime downloadedAt)
         {
             var countrycode = await GetCountryCode(latitude, longitude);
