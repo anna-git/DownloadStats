@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Nullable>enable</Nullable>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
@@ -11,5 +12,4 @@
   <ItemGroup>
     <ProjectReference Include="..\DownloadStats.Database\DownloadStats.Database.csproj" />
   </ItemGroup>
-
 </Project>

@@ -1,4 +1,5 @@
 ﻿using DownloadStats.Domain;
+using DownloadStats.Domain.Stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace DownloadStats.Services
 {
     public interface IDownloadRepository
     {
-
         Task<Download> Add(string appId, double latitude, double longitude, DateTime downloadedAt);
-        Task<IEnumerable<Stats>> GetMain(int number);
+        Task<IEnumerable<TotalStat>> GetAllByCountry();
+        Task<IEnumerable<Download>> GetAll();
     }
 }

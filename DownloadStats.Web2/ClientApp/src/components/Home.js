@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Map from "./Map";
+import DownloadsMap from "./DownloadsMap";
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -7,7 +7,7 @@ export class Home extends Component {
     render() {
         return (
             <div>
-                <Map> </Map>
+                <DownloadsMap> </DownloadsMap>
             </div>
         );
     }

@@ -1,5 +1,6 @@
 ﻿using DownloadStats.Database;
 using DownloadStats.Domain;
+using DownloadStats.Domain.Stats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -24,6 +25,7 @@ namespace DownloadStats.Services
             this.baseUrl = configurationSection.GetSection("BaseUrl").Value;
             this.userName = configurationSection.GetSection("UserName").Value;
         }
+
         public async Task<Download> Add(string appId, double latitude, double longitude, DateTime downloadedAt)
         {
             var countrycode = await GetCountryCode(latitude, longitude);
@@ -39,15 +41,17 @@ namespace DownloadStats.Services
             countrycode = countrycode.Trim();
             return countrycode;
         }
-        public async Task<IEnumerable<Download>> Get() => await context.Downloads.ToListAsync();
-        public async Task<IEnumerable<Stats>> GetMain(int number)
+       
+        public async Task<IEnumerable<TotalStat>> GetAllByCountry()
         {
-            var downloadsStats = await context.Downloads.GroupBy(e => e.CountryCode).OrderByDescending(e => e.Count()).Take(number).Select(e =>
+            //return await context.Downloads.GroupBy(d => d.CountryCode).Select(e => new TotalStat(e.Count(), context. e.Key)).ToListAsync();
+            throw new NotImplementedException();
 
-                new Stats(e.Count(), e.Key, e.Count(d => d.DownloadedAt.Hour < 12), e.Count(d => d.DownloadedAt.Hour > 12 && d.DownloadedAt.Hour < 18), e.Count(d => d.DownloadedAt.Hour > 18))).ToListAsync();
-
-            return downloadsStats;
         }
 
+        public async Task<IEnumerable<Download>> GetAll()
+        {
+            return await context.Downloads.ToListAsync();
+        }
     }
 }

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import Map from './Map';
+import DownloadsMap from "./DownloadsMap";
 
 export class Home extends Component {
-  static displayName = Home.name;
+    static displayName = Home.name;
 
-  render () {
-    return (
-      <Map></Map>
-       
-    );
-  }
-}
+    render() {
+        return (
+            <DownloadsMap> </DownloadsMap>
+        );
+    }
+}  

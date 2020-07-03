@@ -20,8 +20,9 @@ namespace DownloadStats.Web.Controllers
             this.hubcontext = hubcontext;
         }
 
+
         [HttpGet]
-        public Task<IEnumerable<Stats>> Get(int number = 10) => this.downloadRepository.GetMain(10);
+        public Task<StatsAllApps?> Get() => this.downloadRepository.GetAllByCountry(countryCode);
 
         [HttpPost("Add")]
         public async Task<Download> Add(Models.Download download)

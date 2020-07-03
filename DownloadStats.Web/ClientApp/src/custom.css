@@ -12,3 +12,8 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+.leaflet-container {
+    height: 700px;
+    width: 80%;
+    margin: 0 auto;
+}
