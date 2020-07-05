@@ -11,7 +11,7 @@ namespace DownloadStats.Services
     public interface IDownloadRepository
     {
         Task<Download> Add(string appId, double latitude, double longitude, DateTime downloadedAt);
-        Task<IEnumerable<TotalStat>> GetAllByCountry();
         Task<IEnumerable<Download>> GetAll();
+        Task<Domain.Stats.CountryStats> Get(string countryCode);
     }
 }

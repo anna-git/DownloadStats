@@ -41,17 +41,21 @@ namespace DownloadStats.Services
             countrycode = countrycode.Trim();
             return countrycode;
         }
-       
-        public async Task<IEnumerable<TotalStat>> GetAllByCountry()
-        {
-            //return await context.Downloads.GroupBy(d => d.CountryCode).Select(e => new TotalStat(e.Count(), context. e.Key)).ToListAsync();
-            throw new NotImplementedException();
-
-        }
 
         public async Task<IEnumerable<Download>> GetAll()
         {
             return await context.Downloads.ToListAsync();
+        }
+
+        public async Task<CountryStats> Get(string countryCode)
+        {
+            var stats = await this.context.Downloads.Where(d => d.CountryCode == countryCode).GroupBy(d => d.AppId)
+                .Select(a => new Stat(a.Key,
+                a.Count(d => d.DownloadedAt.Hour < 12),
+                a.Count(d => d.DownloadedAt.Hour > 12 && d.DownloadedAt.Hour < 18),
+                a.Count(d => d.DownloadedAt.Hour > 19))).ToListAsync();
+            var countryStats = new CountryStats(stats);
+            return countryStats;
         }
     }
 }

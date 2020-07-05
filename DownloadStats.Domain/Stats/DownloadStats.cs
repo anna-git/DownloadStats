@@ -3,17 +3,27 @@ using System.Drawing;
 
 namespace DownloadStats.Domain.Stats
 {
-    public class TotalStat
+    public class Stat
     {
-        public TotalStat(int total, Point coordinate, string countryCode)
+        public Stat(string appId, int morning, int afternoon, int evening)
         {
-            this.Total = total;
-            this.Coordinate = coordinate;
-            this.CountryCode = countryCode;
+            this.AppId = appId;
+            this.Morning = morning;
+            this.Afternoon = afternoon;
+            this.Evening = evening;
+        }
+        public string AppId { get;  }
+        public int Morning { get;  }
+        public int Afternoon { get;  }
+        public int Evening { get; }
+    }
+    public class CountryStats
+    {
+        public CountryStats(IEnumerable<Stat> stats)
+        {
+            this.Stats = stats;
         }
 
-        public int Total { get; }
-        public Point Coordinate { get; }
-        public string CountryCode { get; }
+        public IEnumerable<Stat> Stats { get; }
     }
 }

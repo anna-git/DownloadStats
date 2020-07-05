@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DownloadStats.Domain;
-using DownloadStats.Domain.Stats;
 using DownloadStats.Services;
 using Microsoft.AspNetCore.Mvc;
-using DownloadStats.Domain.Stats;
 using Microsoft.AspNetCore.SignalR;
 
 namespace DownloadStats.Web.Controllers
@@ -22,8 +20,8 @@ namespace DownloadStats.Web.Controllers
             this.hubcontext = hubcontext;
         }
 
-        //[HttpGet]
-        //public Task<IEnumerable<Stats>> Get(int number = 10) => this.downloadRepository.GetMain(10);
+        [HttpGet("{countryCode}")]
+        public Task<Domain.Stats.CountryStats> Get(string countryCode) => this.downloadRepository.Get(countryCode);
 
         [HttpGet]
         public Task<IEnumerable<Download>> Get() => this.downloadRepository.GetAll();
