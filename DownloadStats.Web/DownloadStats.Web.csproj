@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.5" />
   </ItemGroup>
 
@@ -24,6 +25,12 @@
   <ItemGroup>
     <None Remove="ClientApp\src\assets\marker-shadow.png" />
     <None Remove="ClientApp\src\components\DownloadsMap.tsx" />
+    <None Remove="ClientApp\src\components\Home.tsx" />
+    <None Remove="ClientApp\src\components\StackedBarChart.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\compilerconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +46,8 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\components\DownloadsMap.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Home.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\StackedBarChart.tsx" />
   </ItemGroup>
 
   <ItemGroup>

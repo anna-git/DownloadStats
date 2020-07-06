@@ -1,5 +1,6 @@
 ﻿using DownloadStats.Domain;
 using DownloadStats.Domain.Stats;
+using GeekLearning.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,9 @@ namespace DownloadStats.Services
 {
     public interface IDownloadRepository
     {
-        Task<Download> Add(string appId, double latitude, double longitude, DateTime downloadedAt);
+        Task<Maybe<Download>> Add(string appId, double latitude, double longitude, DateTime downloadedAt);
         Task<IEnumerable<Download>> GetAll();
-        Task<Domain.Stats.CountryStats> Get(string countryCode);
+        Task<IEnumerable<Domain.Stats.Stat>> Get(string countryCode);
+        Task<IEnumerable<Domain.Stats.Stat>> Get();
     }
 }

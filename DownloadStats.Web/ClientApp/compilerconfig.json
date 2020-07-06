@@ -1,0 +1,14 @@
+[
+  {
+    "inputFile": "src/custom.scss",
+    "outputFile": "src/custom.css",
+    "minify": {
+      "enabled": false
+    },
+    "includeInProject": true,
+    "options": {
+      "sourceMap": true
+    }
+   
+  }
+]

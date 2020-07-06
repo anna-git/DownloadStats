@@ -19,5 +19,7 @@ namespace DownloadStats.Domain
         public double Longitude { get; private set; }
         public DateTime DownloadedAt { get; private set; }
         public string CountryCode { get; private set; }
+
+        public string DownloadedAtNice => DownloadedAt.ToShortDateString(); // There is no standard JSON representation of dates so won't be deserialized as date, could have an exstension browser side
     }
 }

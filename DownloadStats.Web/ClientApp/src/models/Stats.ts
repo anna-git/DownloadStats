@@ -1,13 +1,9 @@
-﻿export interface Stats {
-    CountryCode: string;
-    Total: number;
-    Country: string;
-    Morning: number;
-    Evening: number;
-    Afternoon: number;
-}
-export interface Infos {
-    Stats: Stats;
+﻿export interface Stat {
+    appId: string;
+    total: number;
+    morning: number;
+    evening: number;
+    afternoon: number;
 }
 
 export interface Download {
@@ -15,6 +11,10 @@ export interface Download {
     id: number;
     latitude: number;
     longitude: number;
-    downloadAt: Date;
+    downloadedAtNice: Date;
     countryCode:string
+}
+
+export interface IConnected {
+    connection: SignalR.HubConnection;
 }
