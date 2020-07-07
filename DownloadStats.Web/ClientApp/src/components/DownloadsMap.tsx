@@ -1,30 +1,19 @@
 ﻿/* eslint-disable import/first */
 import * as React from "react";
 import ReactDOMServer from "react-dom/server";
-import * as SignalR from '@microsoft/signalr';
 import { Layer } from 'leaflet'
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { Map, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet'
 //import PieChartTooltip from "./PieChartTooltip";
 import { Stat, Download, IConnected } from "../models/Stats";
 import 'leaflet/dist/leaflet.css';
 import * as L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
-import svg from "../assets/suitcaseIcon.svg"
-import svgShadow from "../assets/marker-shadow.png"
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import countries from './Countries';
 
-export const suitcasePoint = new L.Icon({
-    iconUrl: svg,
-    iconRetinaUrl: svg,
-    iconAnchor: [20, 40],
-    popupAnchor: [0, -35],
-    iconSize: [40, 40],
-    shadowUrl: svgShadow,
-    shadowSize: [29, 40],
-    shadowAnchor: [7, 40],
-})
 
 export default class DownloadsMap extends React.Component<IConnected, {}> {
 
@@ -38,6 +27,14 @@ export default class DownloadsMap extends React.Component<IConnected, {}> {
             downloads: new Array<Download>()
         }
         this.connection = props.connection;
+        //fix react leaflet interaction.. explore on how to improve
+        let DefaultIcon = L.icon({
+            iconUrl: icon,
+            shadowUrl: iconShadow
+        });
+
+        L.Marker.prototype.options.icon = DefaultIcon;
+        //todo custom icon per app id, easy with binding
     }
 
     async getData() {
@@ -55,7 +52,7 @@ export default class DownloadsMap extends React.Component<IConnected, {}> {
     }
 
     onEachFeature(feature: GeoJSON.Feature<GeoJSON.GeometryObject, any>, layer: Layer): any {
-        layer.bindTooltip("Click a country to get stats");
+        layer.bindTooltip("Click a country to see    stats");
         layer.on('mouseover', function () {
             (layer as any).setStyle({
                 'fillColor': 'green',
@@ -111,10 +108,10 @@ export default class DownloadsMap extends React.Component<IConnected, {}> {
 
     render() {
         const listItems = ((this.state as any).downloads as Array<Download>).map(d =>
-            <Marker position={[d.latitude, d.longitude]} key={d.id} icon={suitcasePoint}>
-                <Popup>
-                    <div>App: {d.appId}</div>
-                    <div>Download ad: {d.downloadedAtNice}</div>
+            <Marker position={[d.latitude, d.longitude]} key={d.id}>
+                <Popup key={d.id}>
+                    <h3><span className="badge badge-primary">{d.appId}</span></h3>
+                    <div>Downloaded at: {d.downloadedAtNice}</div>
                 </Popup>
             </Marker>);
 

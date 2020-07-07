@@ -19,7 +19,7 @@ function StackedBarChart({ keys, colors, data }) {
     const dimensions = useResizeObserver(wrapperRef);
 
     React.useEffect(() => {
-        if (keys.length == 0) return;
+        if (keys.length === 0) return;
         const svg = select(svgRef.current);
         const { width, height } =
             //dimensions ||
@@ -47,31 +47,8 @@ function StackedBarChart({ keys, colors, data }) {
             .domain(extent)
             .range([height, 0]);
 
-        //var tooltip = select(".chart")
-        //    //.append("div")
-        //    .style("opacity", 0)
-        //    .attr("class", "tooltip")
-        //    .style("background-color", "white")
-        //    .style("border", "solid")
-        //    .style("border-width", "1px")
-        //    .style("border-radius", "5px")
-        //    .style("padding", "10px")
 
-        //// Three function that change the tooltip when user hover / move / leave a cell
-        //var mouseover = function (d) {
-        //    tooltip
-        //        .html(`<label>${d.key}</label>`)
-        //        .style("opacity", 1)
-        //}
-        //var mousemove = function (d) {
-        //    tooltip
-        //        .style("left", (mouse(this)[0]) + "px")
-        //        .style("top", (mouse(this)[1]) + "px")
-        //}
-        //var mouseleave = function (d) {
-        //    tooltip.style("opacity", 1)
-        //}
-        // rendering
+
         svg.selectAll(".layer")
             .data(layers)
             .join("g")
@@ -81,10 +58,11 @@ function StackedBarChart({ keys, colors, data }) {
             })
             .selectAll("rect")
             .data(layer => layer)
+
             .join("rect")
 
             .attr("x", sequence => {
-                return xScale(sequence.data.time);
+                return xScale(sequence.data.time.toString());
             })
             .attr("width", xScale.bandwidth())
             .attr("y", sequence => {
@@ -92,7 +70,27 @@ function StackedBarChart({ keys, colors, data }) {
             })
             .attr("height", sequence => {
                 return yScale(sequence[0]) - yScale(sequence[1]);
+            })
+            .on("mouseover", function () { tooltip.style("display", null); })
+            .on("mouseout", function () { tooltip.style("display", "none"); })
+            .on("mousemove", function (d) {
+                var xPosition = mouse(this)[0] + 10;
+                var yPosition = mouse(this)[1] - 10;
+                tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+                tooltip.select("text").text(d[1] - d[0] + " downloads");
             });
+        var tooltip = svg.append("g")
+            .attr("class", "tooltip")
+            .style("display", "none");
+        //could have a react component
+        tooltip.append("rect");
+
+        tooltip.append("text")
+            .attr("x", 40)
+            .attr("dy", "1.2em")
+            .style("text-anchor", "middle")
+            .attr("font-size", "12px")
+            .attr("font-weight", "bold");
 
         // axes
         const xAxis = axisBottom(xScale);
@@ -101,7 +99,15 @@ function StackedBarChart({ keys, colors, data }) {
             .call(xAxis);
 
         const yAxis = axisLeft(yScale);
-        svg.select(".y-axis").call(yAxis);
+        let yAxisElm = svg.select(".y-axis");
+        yAxisElm.call(yAxis);
+        let cr =( yAxisElm.node() as HTMLElement).getBoundingClientRect();
+        svg.append("text")
+            .attr("text-anchor", "end")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -cr.width*1.3) 
+            .attr("x", 0)
+            .text("Number of downloads")
     }, [data, keys, colors, dimensions]);
 
 
@@ -117,7 +123,7 @@ function StackedBarChart({ keys, colors, data }) {
             </div>
             <div>
                 {Object.keys(colors).map(key => (
-                    <div className="container">
+                    <div className="container" key={ key }>
                         <div className="row">
                             <div className="col-md-3" style={{ backgroundColor: colors[key], height: 25 }}>
                             </div>

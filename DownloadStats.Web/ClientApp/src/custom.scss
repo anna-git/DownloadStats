@@ -19,6 +19,32 @@ code {
     margin: 0 auto;
 }
 
+#root {
+    padding-top: 20px;
+
+    #new-download-alert {
+        font-weight:bold;
+        opacity: 0;
+        transition: opacity .5s ease-in-out;
+        -webkit-transition: opacity .5s ease-in-out;
+        -moz-transition: opacity .5s ease-in-out;
+        -ms-transition: opacity .5s ease-in-out;
+        -o-transition: opacity .5s ease-in-out;
+
+        &.new-download-alert {
+            opacity: 1;
+        }
+    }
+
+    .new-download-alert {
+        -webkit-transition: opacity 3s ease-in-out;
+        -moz-transition: opacity 3s ease-in-out;
+        -ms-transition: opacity 3s ease-in-out;
+        -o-transition: opacity 3s ease-in-out;
+        opacity: 1;
+    }
+}
+
 table.stats {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
@@ -58,9 +84,18 @@ table.stats {
 }
 
 div.chart {
-    .tooltip{
-        z-index:1000000;
+    .tooltip {
+        z-index: 1000000;
+        opacity: 1;
+
+        rect {
+            opacity: 0.9;
+            fill: white;
+            width: 85px;
+            height: 20px;
+        }
     }
+
     svg {
         display: block;
         width: 100%;
@@ -74,6 +109,7 @@ div.chart {
     }
 
     #root {
+        padding-top: 40px;
         max-width: 600px;
         margin: 0 auto;
         display: flex;

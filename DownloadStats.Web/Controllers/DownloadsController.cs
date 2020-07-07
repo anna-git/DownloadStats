@@ -36,7 +36,8 @@ namespace DownloadStats.Web.Controllers
         public async Task<Maybe<Download>> Add(Models.Download download)
         {
             var dl = await downloadRepository.Add(download.AppId, download.Latitude, download.Longitude, download.DownloadedAt);
-            await hubcontext.Clients.All.SendAsync("new-download");
+            if (dl.HasValue)
+                await hubcontext.Clients.All.SendAsync("new-download");
             return dl;
         }
     }

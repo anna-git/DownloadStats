@@ -4,28 +4,34 @@ import DownloadsMap from "./DownloadsMap";
 import * as SignalR from '@microsoft/signalr';
 
 
-export class Home extends React.Component {
+export class Home extends React.Component<{}, { showNewDl: boolean }>  {
     connection: SignalR.HubConnection;
     static displayName = Home.name;
-    callbacks: Array<() => Promise<void>>;
-    register: (cb: () => Promise<void>) => void;
 
-    constructor(props: Readonly<{}>) {
+    constructor(props) {
         super(props);
         this.connection = new SignalR.HubConnectionBuilder().withUrl("/downloads-notifier").build();
-        this.callbacks = new Array<() => Promise<void>>();
-        let that = this;
-        this.register = (cb) => {
-            if (that.callbacks.length < 1)
-                that.callbacks.push(cb);
+        this.state = {
+            showNewDl: false
         }
     }
     async componentDidMount() {
-        this.connection.start().catch(e => console.log(e));
+        await this.connection.start();
+        this.connection.on("new-download", () => {
+            this.setState({
+                showNewDl: true
+            })
+            setTimeout(() => this.setState({
+                showNewDl: false
+            }), 5000
+            );
+        });
     }
 
 
     render() {
+        var className = "alert alert-primary " + (this.state.showNewDl ? "new-download-alert" : "");
+
         return (
             <div className="row">
                 <div className="col-sm-9">
@@ -33,6 +39,9 @@ export class Home extends React.Component {
                 </div>
                 <div className="col-sm-3">
                     <GlobalStats connection={this.connection} ></GlobalStats>
+                    <div id="new-download-alert" className={className} role="alert" >
+                        New download just happened, data is up to date on the map
+                    </div>
                 </div>
             </div>
         );

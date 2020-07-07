@@ -5,7 +5,7 @@ import { IConnected, Stat } from "../models/Stats";
 
 export default class DownloadsMap extends React.Component<{}> {
     connection: any;
-    data: { keys: string[]; colors: string[]; data: any; };
+    data: { keys: string[]; colors: string[]; data: {} };
     readonly colorsAppId: any = {
         "Empatica care": "red",
         "Alert for embrace": "blue", "E4 realtime": "green", "Mate for Embrace": "yellow", "Empatica2": "orange", "Empatica3": "purple", "Empatica4": "pink"
@@ -46,6 +46,7 @@ export default class DownloadsMap extends React.Component<{}> {
     render() {
         return (
             <div>
+                <h3>Worldwide Stats</h3>
                 <StackedBarChart keys={this.state.keys} colors={this.state.colors} data={this.state.data} ></StackedBarChart>
             </div>
         );
