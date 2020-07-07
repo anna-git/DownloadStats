@@ -76,10 +76,10 @@ There's an api : /Add expecting a post request width the folowwing property:
 ### example with Postman:
 > {
         "appId": "s",   
-        "latitude": 40.730610,
-        "longitude":  -73.968565242,
-        "downloadedAt": "2020-06-29T11:57:33.211235"
-}
+        "latitude": 40.730610,      
+        "longitude":  -73.968565242,        
+        "downloadedAt": "2020-06-29T11:57:33.211235"        
+} 
 
 Every time you add an item through this API, there's a call to the geogson apis to reverse geo code the country name. Limit is 2000/day
 
