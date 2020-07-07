@@ -6,6 +6,7 @@ export interface Stat {
     morning: number;
     evening: number;
     afternoon: number;
+    night: number;
 }
 
 export interface Download {

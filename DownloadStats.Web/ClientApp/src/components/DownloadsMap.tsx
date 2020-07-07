@@ -70,19 +70,19 @@ export default class DownloadsMap extends React.Component<IConnected, {}> {
                 var res = await fetch(`/Downloads/Stats/${feature.properties.countryCode}`);
                 let items = await res.json() as Array<Stat>;
                 const listItems = items.map(d => {
-                    var morningGreatest = d.morning > d.afternoon && d.morning > d.evening;
-                    var afternoonGreatest = d.morning < d.afternoon && d.evening < d.afternoon;
-                    var eveningGreatest = d.evening > d.afternoon && d.evening > d.morning;
+                    var periods = [d.morning, d.afternoon, d.evening, d.night];
+                    periods = periods.sort((one, two)=> one > two ? -1 : 1);
                     return (<tr>
                         <td>{d.appId}</td>
-                        <td className={morningGreatest ? "greatest" : ""}>{d.morning}</td>
-                        <td className={afternoonGreatest ? "greatest" : ""}>{d.afternoon}</td>
-                        <td className={eveningGreatest ? "greatest" : ""}>{d.evening}</td>
+                        <td className={periods[0] === d.morning ? "greatest":""}>{d.morning}</td>
+                        <td className={periods[0] === d.afternoon ? "greatest" : ""}>{d.afternoon}</td>
+                        <td className={periods[0] === d.evening ? "greatest" : ""}>{d.evening}</td>
+                        <td className={periods[0] === d.night ? "greatest" : ""}>{d.night}</td>
                         <td className="total">{d.total}</td>
                     </tr>);
                 });
 
-                var content = ReactDOMServer.renderToString(<div>
+                var content = ReactDOMServer.renderToString(<div className="country-stats-container">
                     <h5>{feature.properties.name}</h5>
                     {listItems.length ?
                         <table className="stats">
@@ -91,6 +91,7 @@ export default class DownloadsMap extends React.Component<IConnected, {}> {
                                 <th>Morning</th>
                                 <th>Afternoon</th>
                                 <th>Evening</th>
+                                <th>Night</th>
                                 <th>TOTAL</th>
                             </tr>
                             {listItems}
@@ -99,7 +100,7 @@ export default class DownloadsMap extends React.Component<IConnected, {}> {
                     }
                 </div>
                 );
-                L.popup().setLatLng(event.latlng).setContent(content).openOn((layer as any)._map);
+                L.popup({ maxWidth: 450}).setLatLng(event.latlng).setContent(content).openOn((layer as any)._map);
 
             }
         });

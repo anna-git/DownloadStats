@@ -56,7 +56,19 @@ If you want, I also have a ready for linux docker image here: https://drive.goog
 # Architecture
 
 Several classic layers: 
-* database livestats.db (data access based on sql lite for the sake of this sample, configurable in appsettings.json), use DB Browser for SQLite.exe to explore.
+* database livestats.db (data access based on sql lite for the sake of this sample, configurable in appsettings.json), use DB Browser for SQLite.exe to explore. Databse looks like that: 
+```
+CREATE TABLE "Downloads" (
+	"DownloadedAt"	DATETIME NOT NULL,
+	"AppId"	TEXT NOT NULL,
+	"Latitude"	REAL NOT NULL,
+	"Longitude"	REAL NOT NULL,
+	"CountryCode"	varchar(2) NOT NULL,
+	"Id"	INTEGER NOT NULL,
+	PRIMARY KEY("Id" AUTOINCREMENT)
+);
+```
+the country code is automatically found by the REST api so when calling the post method Add no need to give it [see below](##-manually)
 * domain, business objects
 * services (fetching data)
 * web (front-end part): typescript, react, leaflet for the map alltogether. IOC for services. Signal R to notify a new add in database

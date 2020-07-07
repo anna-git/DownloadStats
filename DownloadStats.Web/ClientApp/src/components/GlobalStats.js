@@ -81,6 +81,7 @@ var DownloadsMap = /** @class */ (function (_super) {
                         datal[0] = { time: "morning" };
                         datal[1] = { time: "afternoon" };
                         datal[2] = { time: "evening" };
+                        datal[3] = { time: "night" };
                         items.forEach(function (i) {
                             if (!keys[i.appId]) {
                                 keys.push(i.appId);
@@ -88,6 +89,7 @@ var DownloadsMap = /** @class */ (function (_super) {
                             datal[0][i.appId] = i.morning;
                             datal[1][i.appId] = i.afternoon;
                             datal[2][i.appId] = i.evening;
+                            datal[3][i.appId] = i.night;
                         });
                         this.setState({
                             keys: keys, data: datal

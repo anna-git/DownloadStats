@@ -44,45 +44,46 @@ code {
         opacity: 1;
     }
 }
+.country-stats-container {
+    margin: auto;
 
-table.stats {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 90%;
+    table.stats {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
 
-    td, th {
-        border: 1px solid #ddd;
-        padding: 4px;
-    }
-
-    td {
-        &.greatest {
-            font-weight: bold;
+        td, th {
+            border: 1px solid #ddd;
+            padding: 4px;
         }
 
-        &.total {
-            font-weight: bolder;
-            color: red;
+        td {
+            &.greatest {
+                font-weight: bold;
+            }
+
+            &.total {
+                font-weight: bolder;
+                color: red;
+            }
         }
-    }
 
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-    tr:hover {
-        background-color: #ddd;
-    }
+        tr:hover {
+            background-color: #ddd;
+        }
 
-    th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #4CAF50;
-        color: white;
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
     }
 }
-
 div.chart {
     .tooltip {
         z-index: 1000000;
