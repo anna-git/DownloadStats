@@ -51,6 +51,8 @@ COPY --from=build-node /ClientApp/build ./ClientApp/build
 ENTRYPOINT ["dotnet", "DownloadStats.Web.dll"]
 ```
 
+If you want, I also have a ready for linux docker image here: https://drive.google.com/file/d/1IhH7sGEm3U1Z_AUeyB-4q2VVdaOPCzGv/view?usp=sharing
+
 # Architecture
 
 Several classic layers: 
