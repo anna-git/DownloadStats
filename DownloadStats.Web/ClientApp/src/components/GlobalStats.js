@@ -61,13 +61,13 @@ var DownloadsMap = /** @class */ (function (_super) {
         };
         _this.state = {
             keys: new Array(),
-            colors: _this.colorsAppId, data: []
+            colors: _this.colorsAppId, data: [], total: 0
         };
         return _this;
     }
     DownloadsMap.prototype.getData = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, items, datal, keys;
+            var res, items, datal, keys, total;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, fetch("/Downloads/Stats")];
@@ -82,6 +82,7 @@ var DownloadsMap = /** @class */ (function (_super) {
                         datal[1] = { time: "afternoon" };
                         datal[2] = { time: "evening" };
                         datal[3] = { time: "night" };
+                        total = 0;
                         items.forEach(function (i) {
                             if (!keys[i.appId]) {
                                 keys.push(i.appId);
@@ -90,9 +91,10 @@ var DownloadsMap = /** @class */ (function (_super) {
                             datal[1][i.appId] = i.afternoon;
                             datal[2][i.appId] = i.evening;
                             datal[3][i.appId] = i.night;
+                            total += i.total;
                         });
                         this.setState({
-                            keys: keys, data: datal
+                            keys: keys, data: datal, total: total
                         });
                         return [2 /*return*/];
                 }
@@ -105,7 +107,10 @@ var DownloadsMap = /** @class */ (function (_super) {
     };
     DownloadsMap.prototype.render = function () {
         return (React.createElement("div", null,
-            React.createElement("h3", null, "Worldwide Stats"),
+            React.createElement("h3", null,
+                "Worldwide: ",
+                this.state.total,
+                " downloads"),
             React.createElement(StackedBarChart_1.default, { keys: this.state.keys, colors: this.state.colors, data: this.state.data })));
     };
     return DownloadsMap;

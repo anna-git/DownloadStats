@@ -4,8 +4,8 @@ import StackedBarChart from "./StackedBarChart";
 import { IConnected, Stat } from "../models/Stats";
 
 
-export default class DownloadsMap extends React.Component<{ connection: SignalR.HubConnection }, { keys, colors, data }> {
-    data: { keys: string[]; colors: string[]; data: {} };
+export default class DownloadsMap extends React.Component<{ connection: SignalR.HubConnection }, { keys, colors, data, total }> {
+    data: { keys: string[]; colors: string[]; data: {}; total: number };
     readonly colorsAppId: any = {
         "Empatica care": "red",
         "Alert for embrace": "blue", "E4 realtime": "green", "Mate for Embrace": "yellow", "Empatica2": "orange", "Empatica3": "purple", "Empatica4": "pink"
@@ -13,7 +13,7 @@ export default class DownloadsMap extends React.Component<{ connection: SignalR.
     constructor(props: Readonly<IConnected>) {
         super(props);
         this.state = {
-            keys: new Array<string>(), colors: this.colorsAppId, data: []
+            keys: new Array<string>(), colors: this.colorsAppId, data: [], total: 0
         }
     }
     async getData() {
@@ -25,7 +25,7 @@ export default class DownloadsMap extends React.Component<{ connection: SignalR.
         datal[1] = { time: "afternoon" };
         datal[2] = { time: "evening" };
         datal[3] = { time: "night" };
-
+        let total = 0;
         items.forEach(i => {
             if (!keys[i.appId]) {
                 keys.push(i.appId);
@@ -34,10 +34,10 @@ export default class DownloadsMap extends React.Component<{ connection: SignalR.
             datal[1][i.appId] = i.afternoon;
             datal[2][i.appId] = i.evening;
             datal[3][i.appId] = i.night;
+            total += i.total;
         });
-
         this.setState({
-            keys: keys, data: datal
+            keys: keys, data: datal, total: total
         });
     }
     componentDidMount() {
@@ -48,7 +48,7 @@ export default class DownloadsMap extends React.Component<{ connection: SignalR.
     render() {
         return (
             <div>
-                <h3>Worldwide Stats</h3>
+                <h3>Worldwide: {this.state.total} downloads</h3>
                 <StackedBarChart keys={this.state.keys} colors={this.state.colors} data={this.state.data} ></StackedBarChart>
             </div>
         );

@@ -13,9 +13,7 @@ import {
 import useResizeObserver from "./useResizeObserver";
 
 function StackedBarChart({ keys, colors, data }) {
-
     const svgRef = React.useRef();
-
     const wrapperRef = React.useRef();
     const dimensions = useResizeObserver(wrapperRef);
 

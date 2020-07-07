@@ -92,7 +92,7 @@ var Home = /** @class */ (function (_super) {
                 React.createElement(DownloadsMap_1.default, { connection: this.connection })),
             React.createElement("div", { className: "col-sm-3" },
                 React.createElement(GlobalStats_1.default, { connection: this.connection }),
-                React.createElement("div", { id: "new-download-alert", className: className, role: "alert" }, "New download just happened, data is up to date on the map"))));
+                React.createElement("div", { id: "new-download-alert", className: className, role: "alert" }, "New download just happened, displayed data is up to date!"))));
     };
     Home.displayName = Home.name;
     return Home;

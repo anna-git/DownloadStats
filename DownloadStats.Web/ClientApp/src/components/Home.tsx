@@ -40,7 +40,7 @@ export class Home extends React.Component<{}, { showNewDl: boolean }>  {
                 <div className="col-sm-3">
                     <GlobalStats connection={this.connection} ></GlobalStats>
                     <div id="new-download-alert" className={className} role="alert" >
-                        New download just happened, data is up to date on the map
+                        New download just happened, displayed data is up to date!
                     </div>
                 </div>
             </div>
