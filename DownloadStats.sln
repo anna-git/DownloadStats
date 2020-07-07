@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{6921B332
 		.gitignore = .gitignore
 		countriescoordinates.csv = countriescoordinates.csv
 		Dockerfile = Dockerfile
-		livestats.db = livestats.db
 		README.md = README.md
 	EndProjectSection
 EndProject
