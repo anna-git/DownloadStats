@@ -17,6 +17,7 @@ COPY DownloadStats.Web/ClientApp/ .
 RUN npm run build 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 ENV BuildingDocker true
+ENV DataSource.DefaultConnection="data source=livestats.db"
 ENV Feeder=10
 WORKDIR /src
 COPY ["DownloadStats.Web/DownloadStats.Web.csproj", "DownloadStats.Web/"]

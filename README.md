@@ -87,6 +87,9 @@ There's an api : /Add expecting a post request width the folowwing property:
    * Latitude
    * Longitude
    * DownloadedAt
+
+AppId must be one of these values:
+"Empatica care" or "Alert for embrace" or "E4 realtime" or "Mate for Embrace" or "Empatica2" or "Empatica3" or "Empatica4"
 ### example with Postman:
 > {
         "appId": "s",   

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using DownloadStats.Domain;
 using DownloadStats.Services;
-using GeekLearning.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -33,12 +32,14 @@ namespace DownloadStats.Web.Controllers
 
 
         [HttpPost("Add")]
-        public async Task<Maybe<Download>> Add(Models.Download download)
+        public async Task<Domain.Maybe<Download>> Add(Models.Download download)
         {
             var dl = await downloadRepository.Add(download.AppId, download.Latitude, download.Longitude, download.DownloadedAt);
             if (dl.HasValue)
+            {
                 await hubcontext.Clients.All.SendAsync("new-download");
-            return dl;
+            }
+             return dl;
         }
     }
 }

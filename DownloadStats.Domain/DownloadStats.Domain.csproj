@@ -2,10 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="GeekLearning.Domain" Version="0.4.0" />
-  </ItemGroup>
 
 </Project>

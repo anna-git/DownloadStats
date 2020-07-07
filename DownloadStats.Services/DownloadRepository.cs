@@ -1,8 +1,6 @@
 ﻿using DownloadStats.Database;
 using DownloadStats.Domain;
 using DownloadStats.Domain.Stats;
-using GeekLearning.Domain;
-using GeekLearning.Domain.Explanations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -27,15 +25,17 @@ namespace DownloadStats.Services
             this.baseUrl = configurationSection.GetSection("BaseUrl").Value;
             this.userName = configurationSection.GetSection("UserName").Value;
         }
-
-        public async Task<Maybe<Download>> Add(string appId, double latitude, double longitude, DateTime downloadedAt)
+        private  string[] AppIds = new string[]{"Empatica care", "Alert for embrace", "E4 realtime", "Mate for Embrace", "Empatica2", "Empatica3", "Empatica4"};
+        public async Task<Domain.Maybe<Download>> Add(string appId, double latitude, double longitude, DateTime downloadedAt)
         {
             var countrycode = await GetCountryCode(latitude, longitude);
             if (string.IsNullOrEmpty(countrycode))
-                return new NotFound<Download>($"no country code found for lat {latitude} and lng {longitude}");
+                return new Maybe<Download>($"no country code found for lat {latitude} and lng {longitude}");
+            if (!AppIds.Contains(appId))
+                return new Maybe<Download>($"app id must be one of these values: {string.Join(", ", AppIds)}");
             var dl = await context.Downloads.AddAsync(new Download(appId, latitude, longitude, downloadedAt, countrycode));
             await context.SaveChangesAsync();
-            return dl.Entity;
+            return new Maybe<Download>(dl.Entity);
         }
         public async Task<string?> GetCountryCode(double latitude, double longitude)
         {
@@ -48,12 +48,9 @@ namespace DownloadStats.Services
             return countrycode;
         }
 
-        public async Task<IEnumerable<Download>> GetAll()
-        {
-            return await context.Downloads.ToListAsync();
-        }
+        public async Task<IEnumerable<Download>> GetAll() => await context.Downloads.ToListAsync();
 
-        public async Task<IEnumerable<DownloadStats.Domain.Stats.Stat>> Get(string countryCode)
+        public async Task<IEnumerable<Stat>> Get(string countryCode)
         {
             var stats = await this.context.Downloads.Where(d => d.CountryCode == countryCode)
                 .Select(a => new
@@ -61,7 +58,6 @@ namespace DownloadStats.Services
                     appId = a.AppId,
                     dates = a.DownloadedAt
                 }).ToListAsync();
-            //Todo explain
             var statsC = stats.GroupBy(e=>e.appId).Select(e=> new Stat(e.Key, e.Select(d=>d.dates)));
             return statsC;
         }
@@ -74,7 +70,6 @@ namespace DownloadStats.Services
                        appId = a.AppId,
                        dates = a.DownloadedAt
                    }).ToListAsync();
-            //Todo explain
             var statsC = stats.GroupBy(e => e.appId).Select(e => new Stat(e.Key, e.Select(d => d.dates)));
             return statsC;
         }
