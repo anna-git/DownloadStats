@@ -92,7 +92,7 @@ AppId must be one of these values:
 "Empatica care" or "Alert for embrace" or "E4 realtime" or "Mate for Embrace" or "Empatica2" or "Empatica3" or "Empatica4"
 ### example with Postman:
 > {
-        "appId": "s",   
+        "appId": "Empatica care",   
         "latitude": 40.730610,      
         "longitude":  -73.968565242,        
         "downloadedAt": "2020-06-29T11:57:33.211235"        
