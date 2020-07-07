@@ -98,7 +98,7 @@ AppId must be one of these values:
         "downloadedAt": "2020-06-29T11:57:33.211235"        
 } 
 
-Every time you add an item through this API, there's a call to the geogson apis to reverse geo code the country name. Limit is 2000/day
+Every time you add an item through this API, there's a call to the geogson apis to reverse geo code the country name (url in appsettings). Limit is 2000/day
 
 # Once on the page
 
