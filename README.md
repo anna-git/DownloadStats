@@ -106,7 +106,7 @@ Several features available
 * see **each** download available as a **marker** on the map
 * see **clusters** when you unzoom
 * click the clusters so that they spread to spiders web of markers
-* a layer of country so that you can click the country itself to ses stats by country by app
+* click the country itself (highlighted in green on hover) to see stats by country by app and time of day
 * on the right, a stacked bar chart refreshed live too, showing the stats for all countries alltogether
 * an alert is showing on the bottom right corner every time there's a new download added to the database.
 
