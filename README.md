@@ -2,14 +2,14 @@
 There's a docker file for a linux platform at the very root of the project built this way:
 docker build -t downloadstats .
 The docker file is for a linux platform. 
-As long as your containers are linux based
+
 Environment variables available:
 * Feeder=10 ([see below feeding data](#feeding-data)) >> 10 is the number of seconds between automatic adds in the database
+
 So you simply need to run 
 docker run -d -p 8080:80 --name downloadstats downloadstats -e "Feeder=20"  
 
-
-Otherwise for windows, you need a docker file for windows that would look like this:
+Otherwise for windows docker containers, you need a docker file for windows that would look like this:
 ```javascript
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
