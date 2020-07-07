@@ -1,11 +1,22 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
+#For more information, please see https://aka.ms/containercompat
+#windows file
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM node:10-alpine as build-node
+WORKDIR /ClientApp
+COPY DownloadStats.Web/ClientApp/package.json .
+COPY DownloadStats.Web/ClientApp/package-lock.json .
+RUN npm install
+COPY DownloadStats.Web/ClientApp/ . 
+RUN npm run build 
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+ENV BuildingDocker true
 WORKDIR /src
 COPY ["DownloadStats.Web/DownloadStats.Web.csproj", "DownloadStats.Web/"]
 COPY ["DownloadStats.Services/DownloadStats.Services.csproj", "DownloadStats.Services/"]
@@ -22,4 +33,6 @@ RUN dotnet publish "DownloadStats.Web.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=build-node /ClientApp/build ./ClientApp/build
+
 ENTRYPOINT ["dotnet", "DownloadStats.Web.dll"]

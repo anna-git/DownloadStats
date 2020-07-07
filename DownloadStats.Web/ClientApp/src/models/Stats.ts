@@ -1,4 +1,6 @@
-﻿export interface Stat {
+﻿import * as SignalR from '@microsoft/signalr';
+
+export interface Stat {
     appId: string;
     total: number;
     morning: number;

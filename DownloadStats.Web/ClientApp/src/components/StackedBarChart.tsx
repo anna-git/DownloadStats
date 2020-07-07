@@ -7,7 +7,8 @@ import {
     max,
     mouse,
     scaleLinear,
-    axisLeft
+    axisLeft,
+    ContainerElement
 } from "d3";
 import useResizeObserver from "./useResizeObserver";
 
@@ -21,9 +22,8 @@ function StackedBarChart({ keys, colors, data }) {
     React.useEffect(() => {
         if (keys.length === 0) return;
         const svg = select(svgRef.current);
-        const { width, height } =
-            //dimensions ||
-            wrapperRef.current.getBoundingClientRect();
+
+        const { width, height } =(wrapperRef.current as any).getBoundingClientRect();
 
         // stacks / layers
         const stackGenerator = stack().keys(keys);
@@ -74,8 +74,8 @@ function StackedBarChart({ keys, colors, data }) {
             .on("mouseover", function () { tooltip.style("display", null); })
             .on("mouseout", function () { tooltip.style("display", "none"); })
             .on("mousemove", function (d) {
-                var xPosition = mouse(this)[0] + 10;
-                var yPosition = mouse(this)[1] - 10;
+                var xPosition = mouse(this as ContainerElement)[0] + 10;
+                var yPosition = mouse(this as ContainerElement)[1] - 10;
                 tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
                 tooltip.select("text").text(d[1] - d[0] + " downloads");
             });
@@ -101,11 +101,11 @@ function StackedBarChart({ keys, colors, data }) {
         const yAxis = axisLeft(yScale);
         let yAxisElm = svg.select(".y-axis");
         yAxisElm.call(yAxis);
-        let cr =( yAxisElm.node() as HTMLElement).getBoundingClientRect();
+        let cr = (yAxisElm.node() as HTMLElement).getBoundingClientRect();
         svg.append("text")
             .attr("text-anchor", "end")
             .attr("transform", "rotate(-90)")
-            .attr("y", -cr.width*1.3) 
+            .attr("y", -cr.width * 1.3)
             .attr("x", 0)
             .text("Number of downloads")
     }, [data, keys, colors, dimensions]);
@@ -123,7 +123,7 @@ function StackedBarChart({ keys, colors, data }) {
             </div>
             <div>
                 {Object.keys(colors).map(key => (
-                    <div className="container" key={ key }>
+                    <div className="container" key={key}>
                         <div className="row">
                             <div className="col-md-3" style={{ backgroundColor: colors[key], height: 25 }}>
                             </div>

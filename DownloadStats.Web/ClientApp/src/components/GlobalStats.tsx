@@ -1,10 +1,10 @@
 ﻿import * as React from "react";
+import * as SignalR from '@microsoft/signalr';
 import StackedBarChart from "./StackedBarChart";
 import { IConnected, Stat } from "../models/Stats";
 
 
-export default class DownloadsMap extends React.Component<{}> {
-    connection: any;
+export default class DownloadsMap extends React.Component<{ connection: SignalR.HubConnection }, { keys, colors, data }> {
     data: { keys: string[]; colors: string[]; data: {} };
     readonly colorsAppId: any = {
         "Empatica care": "red",
@@ -12,7 +12,6 @@ export default class DownloadsMap extends React.Component<{}> {
     };
     constructor(props: Readonly<IConnected>) {
         super(props);
-        this.connection = props.connection;
         this.state = {
             keys: new Array<string>(), colors: this.colorsAppId, data: []
         }
@@ -41,6 +40,7 @@ export default class DownloadsMap extends React.Component<{}> {
     }
     componentDidMount() {
         this.getData();
+        this.props.connection.on("new-download", this.getData);
     }
 
     render() {

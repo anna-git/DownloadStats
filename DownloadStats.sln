@@ -5,8 +5,10 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{6921B332-85E0-467C-8965-899B4D4CC75F}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.gitignore = .gitignore
 		countriescoordinates.csv = countriescoordinates.csv
+		Dockerfile = Dockerfile
 		livestats.db = livestats.db
 		README.md = README.md
 	EndProjectSection
