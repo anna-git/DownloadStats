@@ -40,7 +40,7 @@ export default class DownloadsMap extends React.Component<{ connection: SignalR.
     }
     componentDidMount() {
         this.getData();
-        this.props.connection.on("new-download", this.getData);
+        this.props.connection.on("new-download", this.getData.bind(this));
     }
 
     render() {

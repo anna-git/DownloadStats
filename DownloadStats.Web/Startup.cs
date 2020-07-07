@@ -42,7 +42,6 @@ namespace DownloadStats.Web
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
             }
 
             app.UseStaticFiles();
@@ -58,7 +57,7 @@ namespace DownloadStats.Web
 
                 endpoints.MapHub<Notifier>("/downloads-notifier");
             });
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseSpa(spa =>
             {

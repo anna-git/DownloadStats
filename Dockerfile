@@ -4,7 +4,7 @@
 #For more information, please see https://aka.ms/containercompat
 #windows file
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -15,7 +15,7 @@ COPY DownloadStats.Web/ClientApp/package-lock.json .
 RUN npm install
 COPY DownloadStats.Web/ClientApp/ . 
 RUN npm run build 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 ENV BuildingDocker true
 WORKDIR /src
 COPY ["DownloadStats.Web/DownloadStats.Web.csproj", "DownloadStats.Web/"]

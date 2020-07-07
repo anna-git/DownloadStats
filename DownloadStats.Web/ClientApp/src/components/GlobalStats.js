@@ -99,7 +99,7 @@ var DownloadsMap = /** @class */ (function (_super) {
     };
     DownloadsMap.prototype.componentDidMount = function () {
         this.getData();
-        this.props.connection.on("new-download", this.getData);
+        this.props.connection.on("new-download", this.getData.bind(this));
     };
     DownloadsMap.prototype.render = function () {
         return (React.createElement("div", null,

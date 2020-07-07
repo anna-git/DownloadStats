@@ -21,7 +21,6 @@ namespace DownloadStats.Web
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("https://localhost:5001/");
                 });
     }
 }

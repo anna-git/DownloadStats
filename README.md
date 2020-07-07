@@ -1,3 +1,53 @@
+# How to run
+There's a docker file for a linux platform at the very root of the project built this way:
+docker build -t downloadstats
+The docker file is for a linux platform. 
+As long as your containers are linux based
+You simply need to run 
+$ docker run -d -p 8080:80 --name downloadstats downloadstats
+
+Otherwise you need a docker file for windows that would look like this:
+```javascript
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
+#For more information, please see https://aka.ms/containercompat
+#windows file
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+FROM node:10-alpine as build-node
+WORKDIR /ClientApp
+COPY DownloadStats.Web/ClientApp/package.json .
+COPY DownloadStats.Web/ClientApp/package-lock.json .
+RUN npm install
+COPY DownloadStats.Web/ClientApp/ . 
+RUN npm run build 
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+ENV BuildingDocker true
+WORKDIR /src
+COPY ["DownloadStats.Web/DownloadStats.Web.csproj", "DownloadStats.Web/"]
+COPY ["DownloadStats.Services/DownloadStats.Services.csproj", "DownloadStats.Services/"]
+COPY ["DownloadStats.Database/DownloadStats.Database.csproj", "DownloadStats.Database/"]
+COPY ["DownloadStats.Domain/DownloadStats.Domain.csproj", "DownloadStats.Domain/"]
+RUN dotnet restore "DownloadStats.Web/DownloadStats.Web.csproj"
+COPY . .
+WORKDIR "/src/DownloadStats.Web"
+RUN dotnet build "DownloadStats.Web.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "DownloadStats.Web.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+COPY --from=build-node /ClientApp/build ./ClientApp/build
+
+ENTRYPOINT ["dotnet", "DownloadStats.Web.dll"]
+```
+
 # Architecture
 
 Several classic layers: 
@@ -21,7 +71,7 @@ There's an api : /Add expecting a post request width the folowwing property:
    * Longitude
    * DownloadedAt
 ### example with Postman:
-> { 
+> {
         "appId": "s",
         "latitude": 40.730610,
         "longitude":  -73.968565242,
