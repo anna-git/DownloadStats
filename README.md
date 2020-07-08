@@ -55,8 +55,11 @@ If you want, I also have a ready for linux docker image here: https://drive.goog
 
 # Architecture
 
-Several classic layers: 
-* database livestats.db (data access based on sql lite for the sake of this sample, configurable in appsettings.json), use DB Browser for SQLite.exe to explore. Databse looks like that: 
+Several classic layers:
+## DownloadStats.Database
+
+Database access via ORM entity framework core.
+The database is at the root of the project: livestats.db (data access based on sql lite for the sake of this sample, configurable in appsettings.json), use DB Browser for SQLite.exe to explore for example. Databse looks like that: 
 ```
 CREATE TABLE "Downloads" (
 	"DownloadedAt"	DATETIME NOT NULL,
@@ -69,10 +72,20 @@ CREATE TABLE "Downloads" (
 );
 ```
 the country code is automatically found by the REST api so when calling the post method Add no need to give it [see below](##-manually)
-* domain, business objects
-* services (fetching data)
-* web (front-end part): typescript, react, leaflet for the map alltogether. IOC for services. Signal R to notify a new add in database
-I didn't have time to write tests to be honest.
+## DownloadStats.Domain
+Business objects. Used by the other layers.
+Some business code in the constructor of Stats.
+
+## DownloadStats.Services
+Repositories in charge of fetching and formatting data. 
+
+## DownloadStats.Web
+The front-end part is in the ClientApp folder: typescript, react, signal-r, leaflet for the map, jest for testing purposes alltogether. 
+Regarding the tests, we could develop more, and find a way to make them compatible with the leaflet map entirely.
+IOC for services. Signal R to notify a new add in database
+
+## DownloadStats.Tests
+Using Moq and Xunit to test the domain and services.
 
 # Feeding data
 

@@ -25,14 +25,14 @@ namespace DownloadStats.Services
             this.baseUrl = configurationSection.GetSection("BaseUrl").Value;
             this.userName = configurationSection.GetSection("UserName").Value;
         }
-        private  string[] AppIds = new string[]{"Empatica care", "Alert for embrace", "E4 realtime", "Mate for Embrace", "Empatica2", "Empatica3", "Empatica4"};
+        private readonly string[] AppIds = new string[]{"Empatica care", "Alert for embrace", "E4 realtime", "Mate for Embrace", "Empatica2", "Empatica3", "Empatica4"};
         public async Task<Domain.Maybe<Download>> Add(string appId, double latitude, double longitude, DateTime downloadedAt)
         {
+            if (!AppIds.Contains(appId))
+                return new Maybe<Download>($"app id must be one of these values: {string.Join(", ", AppIds)}");
             var countrycode = await GetCountryCode(latitude, longitude);
             if (string.IsNullOrEmpty(countrycode))
                 return new Maybe<Download>($"no country code found for lat {latitude} and lng {longitude}");
-            if (!AppIds.Contains(appId))
-                return new Maybe<Download>($"app id must be one of these values: {string.Join(", ", AppIds)}");
             var dl = await context.Downloads.AddAsync(new Download(appId, latitude, longitude, downloadedAt, countrycode));
             await context.SaveChangesAsync();
             return new Maybe<Download>(dl.Entity);

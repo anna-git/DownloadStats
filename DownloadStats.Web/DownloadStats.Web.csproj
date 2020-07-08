@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
     <SpaRoot>ClientApp\</SpaRoot>
@@ -25,12 +25,6 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="ClientApp\src\assets\marker-shadow.png" />
-    <None Remove="ClientApp\src\components\DownloadsMap.tsx" />
-    <None Remove="ClientApp\src\components\Home.tsx" />
-    <None Remove="ClientApp\src\components\StackedBarChart.tsx" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="ClientApp\compilerconfig.json" />
@@ -47,11 +41,6 @@
     </Resource>
   </ItemGroup>
 
-  <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\components\DownloadsMap.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\Home.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\StackedBarChart.tsx" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Update="appsettings.Development.json">
@@ -96,8 +85,8 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
-    <TypeScriptModuleKind />
-    <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptModuleKind></TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptOutFile />

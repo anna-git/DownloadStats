@@ -2,7 +2,7 @@ import * as React from 'react';
 import GlobalStats from "./GlobalStats";
 import DownloadsMap from "./DownloadsMap";
 import * as SignalR from '@microsoft/signalr';
-
+ 
 
 export class Home extends React.Component<{}, { showNewDl: boolean }>  {
     connection: SignalR.HubConnection;
@@ -13,10 +13,10 @@ export class Home extends React.Component<{}, { showNewDl: boolean }>  {
         this.connection = new SignalR.HubConnectionBuilder().withUrl("/downloads-notifier").build();
         this.state = {
             showNewDl: false
-        }
-    }
-    async componentDidMount() {
-        await this.connection.start();
+        } 
+    } 
+    async componentDidMount() { 
+        await this.connection.start(); 
         this.connection.on("new-download", () => {
             this.setState({
                 showNewDl: true
@@ -39,7 +39,7 @@ export class Home extends React.Component<{}, { showNewDl: boolean }>  {
                 </div>
                 <div className="col-sm-3">
                     <GlobalStats connection={this.connection} ></GlobalStats>
-                    <div id="new-download-alert" className={className} role="alert" >
+                    <div id="new-download-alert" className={className} role="alert" >  
                         New download just happened, displayed data is up to date!
                     </div>
                 </div>
@@ -47,4 +47,4 @@ export class Home extends React.Component<{}, { showNewDl: boolean }>  {
         );
     }
 
-}  
+}   

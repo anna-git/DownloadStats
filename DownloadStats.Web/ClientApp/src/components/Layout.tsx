@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-
-export class Layout extends Component {
+import * as React from 'react';
+export class Layout extends React.Component {
     static displayName = Layout.name;
 
     render() {
@@ -11,3 +10,4 @@ export class Layout extends Component {
         );
     }
 }
+    

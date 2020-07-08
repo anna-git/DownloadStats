@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DownloadStats.Database", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DownloadStats.Web", "DownloadStats.Web\DownloadStats.Web.csproj", "{80C42A99-F71E-4E0D-AE69-FAE4D3ADCBE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadStats.Tests", "DownloadStats.Tests\DownloadStats.Tests.csproj", "{486C2E57-90A1-4447-A40A-7EE455D8988C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{80C42A99-F71E-4E0D-AE69-FAE4D3ADCBE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80C42A99-F71E-4E0D-AE69-FAE4D3ADCBE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80C42A99-F71E-4E0D-AE69-FAE4D3ADCBE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{486C2E57-90A1-4447-A40A-7EE455D8988C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486C2E57-90A1-4447-A40A-7EE455D8988C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486C2E57-90A1-4447-A40A-7EE455D8988C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486C2E57-90A1-4447-A40A-7EE455D8988C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -19,9 +20,11 @@
     "strict": false,
     "strictPropertyInitialization": false,
     "noImplicitAny": false,
-    "target": "es5"
+    "target": "es5", 
+    "types": ["node"]
   },
   "include": [
     "src"
-  ]
+  ],
+  "exclude": [ "node_modules", "src/__mocks__" ]
 }

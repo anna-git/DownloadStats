@@ -1,22 +1,21 @@
-﻿import * as React from "react";
-import * as SignalR from '@microsoft/signalr';
+﻿import * as SignalR from '@microsoft/signalr';
+import * as React from "react";
 import StackedBarChart from "./StackedBarChart";
 import { IConnected, Stat } from "../models/Stats";
 
 
-export default class DownloadsMap extends React.Component<{ connection: SignalR.HubConnection }, { keys, colors, data, total }> {
+export default class GlobalStats extends React.Component<{ connection: SignalR.HubConnection }, { keys, colors, data, total }> {
     data: { keys: string[]; colors: string[]; data: {}; total: number };
     readonly colorsAppId: any = {
-        "Empatica care": "red",
-        "Alert for embrace": "blue", "E4 realtime": "green", "Mate for Embrace": "yellow", "Empatica2": "orange", "Empatica3": "purple", "Empatica4": "pink"
+        "Empatica care": "red", "Alert for embrace": "blue", "E4 realtime": "green", "Mate for Embrace": "yellow", "Empatica2": "orange", "Empatica3": "purple", "Empatica4": "pink"
     };
     constructor(props: Readonly<IConnected>) {
-        super(props);
+        super(props); 
         this.state = {
-            keys: new Array<string>(), colors: this.colorsAppId, data: [], total: 0
-        }
-    }
-    async getData() {
+            keys: new Array<string>(), colors: this.colorsAppId, data: [], total: 0 
+        } 
+    } 
+     async getData() {
         var res = await fetch("/Downloads/Stats");
         let items = await res.json() as Array<Stat>;
         let datal = [];

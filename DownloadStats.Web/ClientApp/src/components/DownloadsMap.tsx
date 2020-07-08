@@ -1,21 +1,17 @@
-﻿/* eslint-disable import/first */
-import * as React from "react";
-import ReactDOMServer from "react-dom/server";
+﻿import * as React from "react";
+import * as ReactDOMServer from "react-dom/server";
 import { Layer } from 'leaflet'
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { Map, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet'
-//import PieChartTooltip from "./PieChartTooltip";
 import { Stat, Download, IConnected } from "../models/Stats";
 import 'leaflet/dist/leaflet.css';
 import * as L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
-import countries from './Countries';
+import countries from './Countries'; 
+ 
 
-
-export default class DownloadsMap extends React.Component<IConnected, {}> {
+export default class DownloadsMap extends React.Component<IConnected, {}> { 
 
     private position: any = [51.505, -0.09];
     countries: any;
@@ -29,8 +25,8 @@ export default class DownloadsMap extends React.Component<IConnected, {}> {
         this.connection = props.connection;
         //fix react leaflet interaction.. explore on how to improve
         let DefaultIcon = L.icon({
-            iconUrl: icon,
-            shadowUrl: iconShadow
+            iconUrl: 'leaflet/dist/images/marker-icon.png',
+            shadowUrl: 'leaflet/dist/images/marker-shadow.png'
         });
 
         L.Marker.prototype.options.icon = DefaultIcon;
