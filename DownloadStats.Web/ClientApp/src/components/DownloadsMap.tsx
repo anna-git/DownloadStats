@@ -8,6 +8,8 @@ import * as L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import countries from './Countries'; 
  
 
@@ -25,8 +27,8 @@ export default class DownloadsMap extends React.Component<IConnected, {}> {
         this.connection = props.connection;
         //fix react leaflet interaction.. explore on how to improve
         let DefaultIcon = L.icon({
-            iconUrl: 'leaflet/dist/images/marker-icon.png',
-            shadowUrl: 'leaflet/dist/images/marker-shadow.png'
+            iconUrl: icon,
+            shadowUrl: iconShadow
         });
 
         L.Marker.prototype.options.icon = DefaultIcon;
