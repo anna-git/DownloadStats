@@ -1,4 +1,6 @@
+![preview](preview.gif)
 # How to run
+
 There's a docker file for a linux platform at the very root of the project built this way:
 docker build -t downloadstats .
 The docker file is for a linux platform. 
