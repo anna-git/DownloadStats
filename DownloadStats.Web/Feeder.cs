@@ -5,9 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,7 +28,9 @@ namespace DownloadStats.Web
         public Task StartAsync(CancellationToken cancellationToken)
         {
             var r = new Random();
+            const double minLat = -90;
             const double maxLat = 90;
+            const double minLong= -180;
             const double maxLon = 180;
             
             if (_frequency > 0)
@@ -39,8 +39,15 @@ namespace DownloadStats.Web
                 {
                     using var scope = services.CreateScope();
                     var downloadRepository = scope.ServiceProvider.GetRequiredService<IDownloadRepository>();
-                    await downloadRepository.Add(AppIds.ElementAt(r.Next(0, AppIds.Length-1)), r.NextDouble() * maxLat, r.NextDouble() * maxLon, DateTime.Now.AddHours(r.Next(-10,10 )));
-                    await hubcontext.Clients.All.SendAsync("new-download");
+                    var res = await downloadRepository.Add(AppIds.ElementAt(r.Next(0, AppIds.Length-1)), 
+                        r.NextDouble() * (maxLat - minLat) + minLat, 
+                        r.NextDouble() * (maxLon - minLong) + minLong,
+                        DateTime.Now.AddHours(r.Next(-10,10 )));
+                    if (res.HasValue)
+                    {
+                        //todo pass country code to provide more details to clients
+                        await hubcontext.Clients.All.SendAsync("new-download");
+                    }
 
                 }, null, TimeSpan.Zero, TimeSpan.FromSeconds(_frequency));
             }
