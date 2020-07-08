@@ -82,7 +82,7 @@ Repositories in charge of fetching and formatting data.
 ## DownloadStats.Web
 The front-end part is in the ClientApp folder: typescript, react, signal-r, leaflet for the map, jest for testing purposes alltogether. 
 Regarding the tests, we could develop more, and find a way to make them compatible with the leaflet map entirely.
-IOC for services. Signal R to notify a new add in database
+Backend side IOC for services in the file Startup.cs. We use Signal R to notify a new entry in the database.
 
 ## DownloadStats.Tests
 Using Moq and Xunit to test the domain and services.
@@ -103,9 +103,11 @@ There's an api : /Add expecting a post request width the folowwing property:
 
 AppId must be one of these values:
 "Empatica care" or "Alert for embrace" or "E4 realtime" or "Mate for Embrace" or "Empatica2" or "Empatica3" or "Empatica4"
-### example with Postman:
+You'll get an error message otherwise. 
+
+### Example with Postman:
 > {
-        "appId": "Empatica care",   
+		"appId": "Empatica care",   
         "latitude": 40.730610,      
         "longitude":  -73.968565242,        
         "downloadedAt": "2020-06-29T11:57:33.211235"        
@@ -119,7 +121,7 @@ Several features available
 * see **each** download available as a **marker** on the map
 * see **clusters** when you unzoom
 * click the clusters so that they spread to spiders web of markers
-* click the country itself (highlighted in green on hover) to see stats by country by app and time of day
+* **click the country itself** (highlighted in green on hover) to see stats by country by app and time of day
 * on the right, a stacked bar chart refreshed live too, showing the stats for all countries altogether
 * an alert is showing on the bottom right corner every time there's a new download added to the database.
 
