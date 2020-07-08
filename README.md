@@ -93,7 +93,7 @@ Using Moq and Xunit to test the domain and services.
 In the web project there's a Feeder class, it's a hosted service programed to inject fake data in the sql lite database periodically.
 Its frequency is **configurable** in appsettings.json, in seconds. If 0, then it's stopped. 
 It allows you to see live data on the webpage, plugged with Signal R to read fresh data live as soon as it arrives.
-You won't necessarily have a country added every * seconds though, because sometimes the randomly generated coordinates don't happen to be on a country.
+**You won't necessarily have a country added every * seconds though, because sometimes the randomly generated coordinates don't happen to be on a country.**
 If that's the case, nothing is added in the database.
 
 ## Manually
